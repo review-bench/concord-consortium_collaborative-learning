@@ -244,8 +244,10 @@ class InternalTileComponent extends BaseComponent<IProps, IState> {
     document.addEventListener("touchstart", this.recordPointerDownState, true);
     this.domElement?.addEventListener("toolbar-escape", this.handleToolbarEscape);
 
-    // Create focus trap controller — handles Tab cycling, Enter/Escape, external elements
-    if (this.domElement) {
+    // Create focus trap controller — handles Tab cycling, Enter/Escape, external elements.
+    // Read-only tiles (resources pane) don't use a focus trap — Tab flows naturally
+    // through drag handles so keyboard users can pick up tiles to place.
+    if (this.domElement && !this.props.readOnly) {
       this.focusTrapController = new FocusTrapController(
         this.domElement,
         this.buildFocusTrapStrategy()
@@ -534,7 +536,7 @@ class InternalTileComponent extends BaseComponent<IProps, IState> {
       // Only include the drag handle in the focus trap for editable tiles.
       // In read-only tiles (resources pane), the drag handle stays in the
       // natural tab order so Tab flows between tiles without getting trapped.
-      getDragHandleElement: () => this.props.readOnly ? undefined : (this.dragElement ?? undefined),
+      getDragHandleElement: () => this.dragElement ?? undefined,
       getResizeElement: () => this.resizeElement ?? undefined,
       focusContent: () => this.getFocusTrapElements().focusContent?.() ?? false,
       onTabWhenInactive: (e, reverse) => this.navigateToSiblingTile(e, reverse),
