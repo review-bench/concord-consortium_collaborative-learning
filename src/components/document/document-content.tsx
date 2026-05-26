@@ -99,16 +99,26 @@ export class DocumentContentComponent extends BaseComponent<IProps, IState> {
             && this.stores.ui.pickedUpDocId === this.props.content?.contentId;
           // For cross-document keyboard placement: when a tile is picked up
           // from a different document (e.g. resources pane), the editable
-          // workspace document also registers the keydown listener so arrow
-          // keys cycle THIS document's drop zones and Enter places here.
+          // workspace document handles keyboard navigation so arrow keys
+          // cycle THIS document's drop zones and Enter places (copies) here.
+          // Read-only documents never register the keydown listener — only
+          // the editable workspace does.
           const isWorkspaceTarget = pickedUpTileId && !isOwner && !this.props.readOnly;
-          if (isOwner || isWorkspaceTarget) {
+          // Mouse listeners: owner document handles mousemove for drop zone highlighting
+          if (isOwner) {
             this.domElement?.addEventListener("mousemove", this.handlePickUpMouseMove);
             this.domElement?.addEventListener("mouseleave", this.handlePickUpMouseLeave);
-            document.addEventListener("keydown", this.handlePickUpKeyDown);
           } else {
             this.domElement?.removeEventListener("mousemove", this.handlePickUpMouseMove);
             this.domElement?.removeEventListener("mouseleave", this.handlePickUpMouseLeave);
+          }
+          // Keyboard listener: only the editable workspace handles arrow keys and
+          // Enter for placement — whether it's the owner or the cross-doc target.
+          // Read-only documents never register the keydown listener.
+          const shouldHandleKeyboard = (isOwner && !this.props.readOnly) || isWorkspaceTarget;
+          if (shouldHandleKeyboard) {
+            document.addEventListener("keydown", this.handlePickUpKeyDown);
+          } else {
             document.removeEventListener("keydown", this.handlePickUpKeyDown);
             this.clearDropRowInfo();
           }

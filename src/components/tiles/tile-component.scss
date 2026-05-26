@@ -101,6 +101,11 @@
     }
   }
 
+  // Show the drag handle when its wrapper receives keyboard focus
+  .tool-tile-drag-handle-wrapper:focus-visible .tool-tile-drag-handle {
+    opacity: 1;
+  }
+
   .tool-tile-resize-handle-wrapper {
     appearance: none;
     background: none;
