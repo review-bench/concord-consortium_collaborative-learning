@@ -531,7 +531,10 @@ class InternalTileComponent extends BaseComponent<IProps, IState> {
       getToolbarElement: () => this.toolbarElement ?? undefined,
       getTopbarElement: () => this.getFocusTrapElements().topbarElement ?? undefined,
       getPaletteElement: () => this.getFocusTrapElements().paletteElement ?? undefined,
-      getDragHandleElement: () => this.dragElement ?? undefined,
+      // Only include the drag handle in the focus trap for editable tiles.
+      // In read-only tiles (resources pane), the drag handle stays in the
+      // natural tab order so Tab flows between tiles without getting trapped.
+      getDragHandleElement: () => this.props.readOnly ? undefined : (this.dragElement ?? undefined),
       getResizeElement: () => this.resizeElement ?? undefined,
       focusContent: () => this.getFocusTrapElements().focusContent?.() ?? false,
       onTabWhenInactive: (e, reverse) => this.navigateToSiblingTile(e, reverse),
