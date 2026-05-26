@@ -97,7 +97,12 @@ export class DocumentContentComponent extends BaseComponent<IProps, IState> {
         (pickedUpTileId) => {
           const isOwner = pickedUpTileId
             && this.stores.ui.pickedUpDocId === this.props.content?.contentId;
-          if (isOwner) {
+          // For cross-document keyboard placement: when a tile is picked up
+          // from a different document (e.g. resources pane), the editable
+          // workspace document also registers the keydown listener so arrow
+          // keys cycle THIS document's drop zones and Enter places here.
+          const isWorkspaceTarget = pickedUpTileId && !isOwner && !this.props.readOnly;
+          if (isOwner || isWorkspaceTarget) {
             this.domElement?.addEventListener("mousemove", this.handlePickUpMouseMove);
             this.domElement?.addEventListener("mouseleave", this.handlePickUpMouseLeave);
             document.addEventListener("keydown", this.handlePickUpKeyDown);
