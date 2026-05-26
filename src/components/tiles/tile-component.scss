@@ -38,6 +38,19 @@
     }
   }
 
+  // When the tile or any child (e.g. drag handle) has keyboard focus,
+  // show the same visual treatment as mouse hover — gray border and
+  // visible drag handle — so keyboard users see the tile is active.
+  &:has(:focus-visible) {
+    border: 1px solid $tool-tile-hover-border-color;
+    .tile-content {
+      border: 1px solid $tool-tile-hover-border-color;
+    }
+    .tool-tile-drag-handle {
+      opacity: 0.5;
+    }
+  }
+
   &.selected {
     border: 1px solid $workspace-teal;
     .tile-content.selected {
