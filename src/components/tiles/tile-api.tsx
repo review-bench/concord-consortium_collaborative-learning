@@ -29,6 +29,9 @@ export interface ITileFocusableElements {
   // as its own slot in the trap cycle, between content and the standard floating
   // toolbar, so its internal roving-tabindex is a single tab stop with arrow nav.
   paletteElement?: HTMLElement;
+  // The tile's drag handle element for keyboard-driven tile pick-up and placement.
+  // Visited between toolbar and resize in the focus trap cycle.
+  dragHandleElement?: HTMLElement;
 }
 
 export interface ITileApi {

@@ -22,6 +22,8 @@ export function createClueTileStrategy(config: ClueFocusTrapConfig): FocusTrapSt
     ?? (() => config.paletteRef?.current ?? undefined);
   const getResize = config.getResizeElement
     ?? (() => config.resizeRef?.current ?? undefined);
+  const getDragHandle = config.getDragHandleElement
+    ?? (() => config.dragHandleRef?.current ?? undefined);
 
   const ariaLabels = getAriaLabels();
 
@@ -32,15 +34,17 @@ export function createClueTileStrategy(config: ClueFocusTrapConfig): FocusTrapSt
       toolbar: getToolbar(),
       topbar: getTopbar(),
       palette: getPalette(),
+      dragHandle: getDragHandle(),
       resize: getResize(),
     }),
     focusContent: config.focusContent,
     // topbar sits between title and content — for tiles that have a secondary
     // controls strip above the editor (e.g. dataflow). palette sits between
     // content and toolbar so an inline secondary toolbar is a single tab stop
-    // with internal arrow nav. findNextSlot skips slots whose elements are
-    // undefined, so tiles that don't provide topbar/palette are unaffected.
-    cycleOrder: ["title", "topbar", "content", "palette", "toolbar", "resize"],
+    // with internal arrow nav. dragHandle sits between toolbar and resize so
+    // keyboard users can access tile pick-up/move. findNextSlot skips slots
+    // whose elements are undefined, so tiles that don't provide them are unaffected.
+    cycleOrder: ["title", "topbar", "content", "palette", "toolbar", "dragHandle", "resize"],
     tabWithinSlots: ["topbar", "content"],
     announceEnter: ariaLabels.announce.editingTile(config.tileType),
     announceExit: ariaLabels.announce.exitedTile(config.tileType),

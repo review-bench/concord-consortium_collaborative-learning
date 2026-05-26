@@ -47,7 +47,7 @@ describe("createClueTileStrategy", () => {
     expect(elements.toolbar).toBeUndefined();
   });
 
-  it("sets cycle order to title/topbar/content/palette/toolbar/resize", () => {
+  it("sets cycle order to title/topbar/content/palette/toolbar/dragHandle/resize", () => {
     const strategy = createClueTileStrategy({
       onRegisterTileApi: jest.fn(),
       onUnregisterTileApi: jest.fn(),
@@ -56,10 +56,11 @@ describe("createClueTileStrategy", () => {
 
     // `topbar` (e.g. dataflow's Sampling Rate / Record bar) sits between title and
     // content; `palette` (e.g. dataflow's Add-Block palette) sits between content
-    // and toolbar so it can be a single tab stop. Tiles that don't provide topbar
-    // or palette elements have those slots skipped by the trap's findNextSlot.
+    // and toolbar so it can be a single tab stop; `dragHandle` sits between toolbar
+    // and resize for keyboard tile pick-up. Tiles that don't provide these elements
+    // have those slots skipped by the trap's findNextSlot.
     expect(strategy.cycleOrder).toEqual(
-      ["title", "topbar", "content", "palette", "toolbar", "resize"]);
+      ["title", "topbar", "content", "palette", "toolbar", "dragHandle", "resize"]);
   });
 
   it("sets announcement text from tile type", () => {

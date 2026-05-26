@@ -531,6 +531,7 @@ class InternalTileComponent extends BaseComponent<IProps, IState> {
       getToolbarElement: () => this.toolbarElement ?? undefined,
       getTopbarElement: () => this.getFocusTrapElements().topbarElement ?? undefined,
       getPaletteElement: () => this.getFocusTrapElements().paletteElement ?? undefined,
+      getDragHandleElement: () => this.dragElement ?? undefined,
       getResizeElement: () => this.resizeElement ?? undefined,
       focusContent: () => this.getFocusTrapElements().focusContent?.() ?? false,
       onTabWhenInactive: (e, reverse) => this.navigateToSiblingTile(e, reverse),

@@ -49,6 +49,11 @@ export interface ClueFocusTrapConfig {
   paletteRef?: RefObject<HTMLElement | null>;
   getPaletteElement?: () => HTMLElement | undefined;
 
+  // Drag handle element for keyboard-driven tile pick-up and placement.
+  // Visited between toolbar and resize in the focus trap cycle.
+  dragHandleRef?: RefObject<HTMLElement | null>;
+  getDragHandleElement?: () => HTMLElement | undefined;
+
   // Resize handle element
   resizeRef?: RefObject<HTMLElement | null>;
   getResizeElement?: () => HTMLElement | undefined;
